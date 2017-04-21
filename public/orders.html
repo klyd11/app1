@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="salesinv" >
+
+<head>
+
+     <div ng-include="'header.html'"></div>
+
+</head>
+
+<body ng-controller="orders">
+
+    <div ng-include="'menu.html'" ></div>
+
+    <!-- Page Content -->
+    <div class="container">
+
+       
+        <div class="row">
+
+            <div class="col-md-3">
+                 <h3>Order Information</h3>
+                <div class="list-group">
+                    <a href="" ng-click="showPanel('newInv');" ng-class="class1">New Order</a>
+                    <a href="" ng-click="showPanel('allInv');" ng-class="class2">Display Orders</a>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+
+               
+                 <!-- START INVENTORY FORM -->
+                  <div ng-show="newInv" >
+                <h3>New Order</h3>
+               <form  novalidate >
+                     <h4>Customer Information</h4>
+					<div class="form-group">
+                         <div class="ui-widget">
+						    <input type="text" ng-keyup="lookupComplete('cust.fname','fname')" id="cust.fname"  ng-model="cust.fname" name="cust.fname"  tabindex="1" class="form-control" placeholder="First Name" value="">
+                         </div>
+                	</div>
+                    <div class="form-group">
+                        <input type="text"  ng-model="cust.mname" name="cust.mname" tabindex="1"  class="form-control" placeholder="Middle Name" value="">
+					</div>
+                    <div class="form-group">
+						<input type="text" ng-model="cust.lname" name="cust.lname" tabindex="1" class="form-control" placeholder="Last Name" value="">
+					</div>
+					<div class="form-group">
+						<textarea  ng-model="cust.address" name="cust.address" tabindex="1" class="form-control" placeholder="Address" value=""></textarea>
+					</div>
+					<div class="form-group">
+						<input type="text" ng-model="cust.city" name="cust.city" tabindex="2" class="form-control" placeholder="City" value="">
+					</div>
+                    <div class="form-group">
+						<input type="text" ng-model="cust.country" name="cust.country" tabindex="2" class="form-control" placeholder="Country" value="">
+					</div>
+                    <div class="form-group">
+						<input type="email" ng-model="cust.email" name="cust.email" tabindex="2" class="form-control" placeholder="Email" value="">
+					</div>
+					<div class="form-group">
+						<input type="text" ng-model="cust.contact" name="cust.contact" tabindex="2" class="form-control" placeholder="Contact" value="">
+					</div>
+
+                    <h4>Items Information</h4>
+					<div>
+                        <fieldset  data-ng-repeat="choice in choices">
+                            <input type="text" ng-model="choice.itemname" name=""  class="form-control" placeholder="Item Name">
+                            <input type="text" ng-model="choice.quantity" name=""  class="form-control" placeholder="Quantity">
+                            <input type="text" ng-model="choice.price" name=""  class="form-control" placeholder="Price">
+                            <input type="text" ng-model="choice.sellprice" name=""  class="form-control" placeholder="Selling Price">
+                            <button class="remove" ng-show="!$first"  class="form-control btn" ng-click="removeChoice($index)">Remove Item</button>
+                        </fieldset>
+                       
+                    <button class="addfields" ng-click="addNewChoice()">Add fields</button>
+                        <!-- <div id="choicesDisplay">
+                        {{ choices }}
+                    </div> -->
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-3">
+								<input type="button" ng-show="inv == '' " ng-click="saveOrders();" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Save">
+                                <input type="button" ng-show="inv != '' " ng-click="saveOrders();" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Update">
+							</div>
+						</div>
+	        		</div>
+				</form>
+                </div>
+                <!-- END INVENTORY FORM -->
+                
+
+                <div ng-show="allInv" >
+                    <h2>All Inventory</h2>
+                <table id="displayInventory" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Selling Price</th>                      
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Selling Price</th> 
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr ng-repeat="row in datatable | orderBy:sortType:sortReverse | filter:invsearch"  >
+                        <td><a href="#" ng-click="openInv(row._id);">{{ row.itemname }}</a></td>
+                        <td>{{ row.itemdesc }}</td>
+                        <td>{{ row.quantity }}</td>
+                        <td>{{ row.price }}</td>
+                        <td>{{ row.sellprice }}</td>
+                    </tr>
+                   
+                        
+                </tbody>
+            </table>
+            </div>
+
+
+
+
+
+
+            </div>
+
+        </div>
+         
+
+
+        <div class="ui-widget">
+      <label for="tags">Tags: </label>
+      <input id="tags" ng-keyup="complete()"/>
+    </div>
+    
+    </div>
+    <!-- /.container -->
+
+    <div class="container">
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                
+                <div class="col-lg-12">
+                    <center>
+                    <p>Copyright &copy; Your Website 2014</p>
+                    </center>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="js/angular.min.js"></script>
+   
+    <script type="text/javascript" src="js/angular.script.js"></script>
+
+    <script type="text/javascript" src="js/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="js/jquery-ui.js"></script>
+
+    <script>
+           /*
+            $('#displayInventory').DataTable();
+            $("#displayInventory_filter").html(' <input type="text" class="form-control" placeholder="Search" ng-model="invsearch">')
+            */
+           
+    </script>
+</body>
+
+</html>
